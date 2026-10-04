@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Field Notes — a personal blog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+:root{--bg:#EEF1EC;--ink:#1B2A3A;--muted:#5B6B78;--line:#C9D2CC;--accent:#2F6F5E;--mark:#F2C14E;--card:#F7F9F6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13191F;--ink:#E6ECE8;--muted:#98A6AF;--line:#2B3640;--accent:#7CC4AE;--mark:#C9992A;--card:#1A222A}}
+:root[data-theme="dark"]{--bg:#13191F;--ink:#E6ECE8;--muted:#98A6AF;--line:#2B3640;--accent:#7CC4AE;--mark:#C9992A;--card:#1A222A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.65 "Newsreader",Georgia,serif}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:3px}
+.wrap{max-width:700px;margin:0 auto;padding:0 22px 80px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:34px 0 18px;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+.brand{font:800 clamp(34px,8vw,54px)/1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.03em;text-decoration:none;background:linear-gradient(transparent 62%,var(--mark) 62%);padding:0 4px;margin-left:-4px}
+nav{display:flex;gap:10px}
+button,.btn{font:700 15px "Bricolage Grotesque",system-ui,sans-serif;border:2px solid var(--ink);background:transparent;color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--bg)}
+button:hover{background:var(--mark);color:#1B2A3A;border-color:var(--mark)}
+.tagline{color:var(--muted);margin:18px 0 6px;font-style:italic}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 8px}
+.tags button{font-size:14px;padding:4px 12px;border-width:1px;border-color:var(--line);color:var(--muted)}
+.tags button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.search{width:100%;font:inherit;font-size:17px;padding:10px 14px;margin-top:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.post{display:block;padding:28px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.post h2{font:800 clamp(26px,5vw,34px)/1.12 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 8px}
+.post:hover h2{color:var(--accent)}
+.post p{margin:0 0 8px;color:var(--muted)}
+.meta{font-size:15px;color:var(--muted)}
+.meta b{font-weight:500;color:var(--accent)}
+article h1{font:800 clamp(34px,7vw,52px)/1.05 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.03em;margin:34px 0 12px}
+article .body p{margin:0 0 1.2em}
+article .body p:first-child::first-letter{font:800 3.4em/.85 "Bricolage Grotesque",sans-serif;float:left;padding:6px 10px 0 0;color:var(--accent)}
+.back{margin-top:26px;display:inline-block}
+form{display:grid;gap:16px;margin-top:28px}
+label{font:700 15px "Bricolage Grotesque",system-ui,sans-serif;display:grid;gap:6px}
+input,textarea{font:inherit;font-weight:400;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
+textarea{min-height:280px;resize:vertical}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.empty{padding:40px 0;color:var(--muted)}
+.err{color:#C0392B;font-size:15px;min-height:1em}
+footer{margin-top:50px;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#/">Field Notes</a>
+    <nav>
+      <button id="theme" aria-label="Switch light or dark theme">Theme</button>
+      <button class="primary" id="write">Write a post</button>
+    </nav>
+  </header>
+  <main id="app"></main>
+  <footer>Posts you write are saved in this browser only.</footer>
+</div>
+<script>
+(function(){
+  var KEY="fieldnotes-posts-v1";
+  var seed=[
+    {id:"s1",title:"Why I keep a notebook for small things",tag:"Habits",date:"2026-09-21",
+     body:"Big ideas get written down. Small ones, the odd phrase on a train or the way light sat on a kitchen floor, mostly vanish.\n\nFor a year I have carried a cheap notebook and written one line a day. No rules about quality. Most entries are forgettable, and that is fine, because the forgettable ones make the good ones easy to spot later.\n\nIf you want to start, buy the cheapest notebook you can find. A nice one makes every line feel like it has to matter."},
+    {id:"s2",title:"A slow morning, a faster week",tag:"Work",date:"2026-09-12",
+     body:"I used to start the day by opening email. Now I spend the first forty minutes on one piece of work I chose the night before.\n\nThe week got noticeably faster. Not because I did more in those forty minutes, but because I stopped spending the afternoon reacting.\n\nIt is not a system, just a small order of operations."},
+    {id:"s3",title:"Notes on learning to cook one dish well",tag:"Food",date:"2026-08-30",
+     body:"I picked dal and made it every Sunday for two months. The first batch was bland. The fourth was good. By the eighth I could tell by the sound of the tadka when it was ready.\n\nRepeating one thing teaches you more than trying eight."}
+  ];
+  var posts=load(), tag="", q="", app=document.getElementById("app");
+
+  function load(){
+    try{var r=localStorage.getItem(KEY);if(r){var p=JSON.parse(r);if(Array.isArray(p))return seed.concat(p)}}catch(e){}
+    return seed.slice();
+  }
+  function saveMine(){
+    try{localStorage.setItem(KEY,JSON.stringify(posts.filter(function(p){return p.mine})))}catch(e){}
+  }
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function fmt(d){try{return new Date(d+"T00:00:00").toLocaleDateString("en",{day:"numeric",month:"long",year:"numeric"})}catch(e){return d}}
+  function mins(t){return Math.max(1,Math.round(t.trim().split(/\s+/).length/200))}
+  function sorted(){return posts.slice().sort(function(a,b){return b.date<a.date?-1:b.date>a.date?1:0})}
+  function paras(t){return t.split(/\n\s*\n/).map(function(p){return "<p>"+esc(p.trim()).replace(/\n/g,"<br>")+"</p>"}).join("")}
+
+  function home(){
+    var all=sorted(), tags=[];
+    all.forEach(function(p){if(tags.indexOf(p.tag)<0)tags.push(p.tag)});
+    var list=all.filter(function(p){
+      return (!tag||p.tag===tag)&&(!q||(p.title+" "+p.body).toLowerCase().indexOf(q.toLowerCase())>-1)});
+    var h='<p class="tagline">Short essays on habits, work and small projects.</p>';
+    h+='<input class="search" id="q" type="search" placeholder="Search posts" aria-label="Search posts" value="'+esc(q)+'">';
+    h+='<div class="tags" role="group" aria-label="Filter by topic"><button data-tag="" aria-pressed="'+(!tag)+'">All</button>';
+    tags.forEach(function(t){h+='<button data-tag="'+esc(t)+'" aria-pressed="'+(tag===t)+'">'+esc(t)+'</button>'});
+    h+='</div>';
+    if(!list.length)h+='<p class="empty">No posts match. Clear the search or pick another topic.</p>';
+    list.forEach(function(p){
+      h+='<a class="post" href="#/post/'+esc(p.id)+'"><h2>'+esc(p.title)+'</h2><p>'+esc(p.body.split(/\n/)[0].slice(0,150))+'…</p><div class="meta"><b>'+esc(p.tag)+'</b> · '+fmt(p.date)+' · '+mins(p.body)+' min read</div></a>';
+    });
+    app.innerHTML=h;
+    app.querySelector("#q").addEventListener("input",function(e){
+      q=e.target.value;var pos=e.target.selectionStart;home();var n=app.querySelector("#q");n.focus();n.setSelectionRange(pos,pos)});
+    app.querySelectorAll("[data-tag]").forEach(function(b){b.addEventListener("click",function(){tag=b.getAttribute("data-tag");home()})});
+  }
+
+  function view(id){
+    var p=posts.filter(function(x){return x.id===id})[0];
+    if(!p){app.innerHTML='<p class="empty">That post was not found.</p><a class="back" href="#/">Back to all posts</a>';return}
+    app.innerHTML='<article><h1>'+esc(p.title)+'</h1><div class="meta"><b>'+esc(p.tag)+'</b> · '+fmt(p.date)+' · '+mins(p.body)+' min read</div><div class="body" style="margin-top:28px">'+paras(p.body)+'</div></article>'+
+      '<div class="row" style="margin-top:30px"><a class="back" href="#/">Back to all posts</a>'+(p.mine?'<button id="del">Delete post</button>':'')+'</div>';
+    window.scrollTo(0,0);
+    var d=app.querySelector("#del");
+    if(d)d.addEventListener("click",function(){
+      if(confirm("Delete this post? This cannot be undone.")){posts=posts.filter(function(x){return x.id!==id});saveMine();location.hash="#/"}});
+  }
+
+  function editor(){
+    app.innerHTML='<h1 style="font:800 38px/1.1 \'Bricolage Grotesque\',sans-serif;letter-spacing:-.02em;margin:34px 0 0">New post</h1>'+
+      '<form id="f" novalidate><label>Title<input id="t" maxlength="120"></label>'+
+      '<label>Topic<input id="g" maxlength="24" placeholder="For example: Habits"></label>'+
+      '<label>Post<textarea id="b" placeholder="Separate paragraphs with a blank line."></textarea></label>'+
+      '<div class="err" id="e" role="alert"></div>'+
+      '<div class="row"><button class="primary" type="submit">Publish post</button><a class="back" style="margin:0" href="#/">Cancel</a></div></form>';
+    app.querySelector("#t").focus();
+    app.querySelector("#f").addEventListener("submit",function(ev){
+      ev.preventDefault();
+      var t=app.querySelector("#t").value.trim(),g=app.querySelector("#g").value.trim()||"General",b=app.querySelector("#b").value.trim();
+      if(!t||!b){app.querySelector("#e").textContent="Add a title and some text before publishing.";return}
+      var id="u"+Date.now();
+      posts.push({id:id,title:t,tag:g,body:b,date:new Date().toISOString().slice(0,10),mine:true});
+      saveMine();tag="";q="";location.hash="#/post/"+id});
+  }
+
+  function route(){
+    var h=location.hash||"#/";
+    if(h.indexOf("#/post/")===0)view(h.slice(7));
+    else if(h==="#/write")editor();
+    else home();
+    document.title=h==="#/"||!location.hash?"Field Notes — a personal blog":document.title;
+  }
+  document.getElementById("write").addEventListener("click",function(){location.hash="#/write"});
+  document.getElementById("theme").addEventListener("click",function(){
+    var r=document.documentElement,dark=r.getAttribute("data-theme")?r.getAttribute("data-theme")==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+    r.setAttribute("data-theme",dark?"light":"dark")});
+  window.addEventListener("hashchange",route);
+  route();
+})();
+</script>
+</body>
+</html>
